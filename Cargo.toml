@@ -20,6 +20,7 @@ hyper-os.workspace = true
 hyper-rt.workspace = true
 hyper-service-ipc.workspace = true
 hyper-journal.workspace = true
+serde_json.workspace = true
 
 [lints]
 workspace = true
