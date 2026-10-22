@@ -1,4 +1,4 @@
 # SPDX-FileCopyrightText: 2026 roolrz
 # SPDX-License-Identifier: Apache-2.0
 
-$(eval $(call native-rust-app,app/journalctl,hyper-journalctl,journalctl,bin/journalctl,system development))
+$(eval $(call native-rust-app,app/journalctl,hyper-journalctl,journalctl,bin/journalctl,development))
