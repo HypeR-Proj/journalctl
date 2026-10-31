@@ -17,5 +17,69 @@
       "app-test",
       "APP_TEST_PACKAGE=hyper-journalctl"
     ]
-  ]
+  ],
+  "cargo": [
+    {
+      "manifest": "Cargo.toml",
+      "domain": "system"
+    }
+  ],
+  "artifacts": [
+    {
+      "binary": "hyper-journalctl",
+      "staged": "journalctl",
+      "destination": "bin/journalctl",
+      "mode": "0755",
+      "profiles": [
+        "development"
+      ],
+      "rust_runtime": "std",
+      "environment": "system",
+      "manifest": "Cargo.toml",
+      "enabled": true,
+      "requires": [
+        {
+          "module": "journald",
+          "artifact": "svc/journal"
+        }
+      ]
+    }
+  ],
+  "build": {
+    "requires": [
+      "toolchain"
+    ],
+    "actions": {
+      "all": [
+        [
+          "python3",
+          "{workspace}/scripts/build-native-module.py",
+          "--module",
+          "{module}",
+          "--action",
+          "{action}"
+        ]
+      ],
+      "build": [
+        [
+          "python3",
+          "{workspace}/scripts/build-native-module.py",
+          "--module",
+          "{module}",
+          "--action",
+          "{action}"
+        ]
+      ],
+      "check": [
+        [
+          "python3",
+          "{workspace}/scripts/build-native-module.py",
+          "--module",
+          "{module}",
+          "--action",
+          "{action}"
+        ]
+      ]
+    }
+  }
 }
