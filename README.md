@@ -5,16 +5,42 @@ SPDX-License-Identifier: Apache-2.0
 
 # journalctl
 
-A HypeR component. See [HypeR](https://github.com/HypeR-Proj/HypeR) for
-workspace setup and the installed SDK build boundary.
+Reader for the volatile Native service journal.
 
-## Workspace tests
+Uses `lib-journal-client` query records and `lib-service-ipc` through the delegated
+journal query connector. Text mode supports component filters and polling; JSON mode
+returns one bounded cursor page.
 
-Use the [HypeR workspace](https://github.com/HypeR-Proj/HypeR) to resolve dependencies:
+See the [implementation entry](src/main.rs) and [component declaration](component.json)
+for the public interfaces, build dependencies and delivered artifacts.
+
+## Usage
+
+In a Native session with the required capabilities:
 
 ```sh
-python3 project.py test journalctl
+journalctl -n 20
+journalctl --json --limit 128
 ```
 
-Paths in the documentation are relative to the repo-managed workspace root.
-Edit this repository and prepare the workspace again before building.
+## Boundaries
+
+Records are retained in memory and may be evicted. The client reports retention loss,
+rejected sources and mirror drops. JSON pages are limited to 128 records; follow mode
+polls rather than subscribing to a persistent stream.
+
+## Build and test
+
+Use this checkout inside the [repo-managed workspace](https://github.com/HypeR-Proj/HypeR).
+From this repository directory:
+
+```sh
+make
+make test
+```
+
+An absolute `OUT=/path/to/out` selects a shared output directory. The module
+entry delegates to build/system, which prepares the installed SDK and declared
+dependencies. Native binaries require HypeR; host module checks cover the tests
+selected by component.json. A standalone clone does not contain the workspace’s
+other source repositories or Native SDK.
